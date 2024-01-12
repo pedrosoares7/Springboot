@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public record RentalPatchDto(
 
         Long Id,
-        Long rentalPrice,
+        int rentalPrice,
         LocalDate rentalEndDate
 
 ) {

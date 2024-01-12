@@ -19,22 +19,24 @@ public class Rental {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Client client;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Car car;
 
-    private Long rentalPrice;
+    private int rentalPrice;
 
     private LocalDate rentalStartDate;
 
     private LocalDate rentalEndDate;
 
     public Rental(Car newCar, Client newClient) {
+        this.car = newCar;
+        this.client = newClient;
     }
 
-    public void setRentalPrice(Long rentalPrice) {
+    public void setRentalPrice(int rentalPrice) {
         this.rentalPrice = rentalPrice;
     }
 }

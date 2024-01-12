@@ -28,7 +28,7 @@ public class RentalController {
     }
 
     @GetMapping("/")//todos os rentals
-    public ResponseEntity<List<Rental>> getRentals(){
+    public ResponseEntity<List<RentalCreateDto>> getRentals(){
         return new ResponseEntity<>(rentalService.getRentals(), HttpStatus.OK);
     }
 

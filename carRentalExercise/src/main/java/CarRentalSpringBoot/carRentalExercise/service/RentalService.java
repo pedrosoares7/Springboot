@@ -27,8 +27,11 @@ public class RentalService implements RentalServiceInterface {
     }
 
     @Override
-    public List<Rental> getRentals() {
-        return rentalRepository.findAll();
+    public List<RentalCreateDto> getRentals() {
+        List<Rental> rentals = rentalRepository.findAll();
+        return rentals.stream()
+                .map(RentalConverter::fromEntityRentalToDto)
+                .toList();
     }
 
     @Override
@@ -45,6 +48,9 @@ public class RentalService implements RentalServiceInterface {
         Car newCar = carService.getCar(rental.carId());
         Client newClient = clientService.getClient(rental.clientId());
         Rental newRental = new Rental(newCar,newClient);
+        newRental.setRentalStartDate(rental.rentalStartDate());
+        newRental.setRentalPrice(rental.rentalPrice());
+        newRental.setRentalEndDate(rental.rentalEndDate());
         rentalRepository.save(newRental);
 
     }
@@ -59,7 +65,7 @@ public class RentalService implements RentalServiceInterface {
         if (rental.rentalEndDate() != null && !rental.rentalEndDate().equals(rentalToUpdate.getRentalEndDate())) {
             rentalToUpdate.setRentalEndDate(rental.rentalEndDate());
         }
-        if (rental.rentalPrice() < 0 && !rental.rentalPrice().equals(rentalToUpdate.getRentalPrice())) {
+        if (rental.rentalPrice() < 0 && rental.rentalPrice()!=rentalToUpdate.getRentalPrice()) {
             rentalToUpdate.setRentalPrice(rental.rentalPrice());
         }
        rentalRepository.save(rentalToUpdate);

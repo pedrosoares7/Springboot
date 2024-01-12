@@ -7,7 +7,7 @@ import CarRentalSpringBoot.carRentalExercise.entity.Rental;
 import java.util.List;
 
 public interface RentalServiceInterface {
-    List<Rental> getRentals();
+    List<RentalCreateDto> getRentals();
 
     Rental getRental(Long rentalId);
 

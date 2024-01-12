@@ -11,7 +11,7 @@ public record RentalCreateDto(
         Long carId,
 
         Long clientId,
-        Long rentalPrice,
+        int rentalPrice,
 
         LocalDate rentalStartDate,
 

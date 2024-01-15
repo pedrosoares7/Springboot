@@ -1,6 +1,7 @@
 package CarRentalSpringBoot.carRentalExercise.converter;
 
 import CarRentalSpringBoot.carRentalExercise.dto.clientDto.ClientCreateDto;
+import CarRentalSpringBoot.carRentalExercise.dto.clientDto.ClientGetDto;
 import CarRentalSpringBoot.carRentalExercise.entity.Client;
 
 public class ClientConverter {
@@ -16,6 +17,14 @@ public class ClientConverter {
         );
     }
 
+    public static ClientGetDto fromEntityGetToDto(Client client) {
+        return new ClientGetDto(
+
+                client.getName(),
+                client.getNif()
+
+        );
+    }
     public static Client fromDtoToEntity(ClientCreateDto clientDto) {
         return Client.builder()
                 .name(clientDto.name())

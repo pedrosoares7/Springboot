@@ -33,8 +33,8 @@ public class ClientController {
         return new ResponseEntity<>(clientService.getClients(),HttpStatus.OK);
     }
     @GetMapping("/{clientId}")//client por ID
-    public ResponseEntity<Client> getClient (@PathVariable("clientId") Long clientId) {
-        return new ResponseEntity<>(clientService.getClient(clientId), HttpStatus.OK);
+    public ResponseEntity<ClientCreateDto> getClientCreateDto (@PathVariable("clientId") Long clientId) {
+        return new ResponseEntity<>(clientService.getClientCreateDto(clientId), HttpStatus.OK);
     }
 
     @PostMapping("/")

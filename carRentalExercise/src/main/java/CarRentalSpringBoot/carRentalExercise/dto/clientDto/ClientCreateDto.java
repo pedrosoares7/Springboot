@@ -1,27 +1,30 @@
 package CarRentalSpringBoot.carRentalExercise.dto.clientDto;
 
+import CarRentalSpringBoot.carRentalExercise.utilsmessage.Message;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
 public record ClientCreateDto(
 
      Long Id,
-     @Valid
-     @NotBlank(message = "Name is mandatory")
+
+     @NotNull(message = Message.NAME_MANDATORY)
      String name,
-     @Valid
-     @NotBlank(message = "Email is mandatory")
+
+     @NotNull(message = Message.EMAIL_MANDATORY)
      String email,
-     @Valid
-     @NotBlank(message = "DriversLicense is mandatory")
+
+     @NotNull(message = Message.DRIVER_LICENSE_MANDATORY)
      int driversLicense,
-     @Valid
-     @NotBlank(message = "NIF is mandatory")
+
+     @NotNull(message = Message.NIF_MANDATORY)
      int nif,
-     @Valid
-     @NotBlank(message = "DateOfBirth is mandatory")
+
+
+     @NotNull(message = Message.DATE_OF_BIRTH_MANDATORY)
      LocalDate dateOfBirth
 
 ) {

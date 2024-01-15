@@ -17,7 +17,9 @@ public interface ClientServiceInterface {
          }*/
     List<ClientCreateDto> getClients();
 
-    Client getClient(Long carId);
+   Client getClient(Long clientId);
+
+   ClientCreateDto getClientCreateDto (Long clientId);
 
     void addNewClient(ClientCreateDto client);
 

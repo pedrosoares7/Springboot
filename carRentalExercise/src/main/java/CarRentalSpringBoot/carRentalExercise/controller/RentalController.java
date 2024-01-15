@@ -3,6 +3,7 @@ package CarRentalSpringBoot.carRentalExercise.controller;
 import CarRentalSpringBoot.carRentalExercise.dto.carDto.CarCreateDto;
 import CarRentalSpringBoot.carRentalExercise.dto.carDto.CarPatchDto;
 import CarRentalSpringBoot.carRentalExercise.dto.rentalDto.RentalCreateDto;
+import CarRentalSpringBoot.carRentalExercise.dto.rentalDto.RentalGetDto;
 import CarRentalSpringBoot.carRentalExercise.dto.rentalDto.RentalPatchDto;
 import CarRentalSpringBoot.carRentalExercise.entity.Car;
 import CarRentalSpringBoot.carRentalExercise.entity.Client;
@@ -28,8 +29,8 @@ public class RentalController {
     }
 
     @GetMapping("/")//todos os rentals
-    public ResponseEntity<List<RentalCreateDto>> getRentals(){
-        return new ResponseEntity<>(rentalService.getRentals(), HttpStatus.OK);
+    public ResponseEntity<List<RentalGetDto>> getRentals(){
+        return new ResponseEntity<>(rentalService.getRentalSomeInfo(), HttpStatus.OK);
     }
 
     @GetMapping("/{rentalId}")//rental por ID

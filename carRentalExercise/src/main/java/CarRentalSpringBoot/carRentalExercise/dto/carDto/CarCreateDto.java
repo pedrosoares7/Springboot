@@ -1,23 +1,31 @@
 package CarRentalSpringBoot.carRentalExercise.dto.carDto;
 
 
+import CarRentalSpringBoot.carRentalExercise.utilsmessage.Message;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record CarCreateDto(
         Long Id,
-        @Valid
-        @NotBlank(message = "Brand is mandatory")
+
+        @NotNull(message = Message.CAR_BRAND_MANDATORY)
         String brand,
-        @Valid
-        @NotBlank(message = "Plate is mandatory")
+
+        @NotNull(message = Message.LICENSE_PLATE_MANDATORY)
         String plate,
-        @Valid
-        @NotBlank(message = "HorsePower is mandatory")
+
+        @NotNull(message = Message.HORSE_POWER_MANDATORY)
         int horsePower,
-        @Valid
-        @NotBlank(message = "Km is mandatory")
-        int km
+
+        @NotNull(message = Message.KM_MANDATORY)
+        int km,
+
+
+        @NotNull(message = Message.DAILY_RENTAL_PRICE_MANDATORY)
+        double dailyRentalPrice
+
+
 ) {
 
 }

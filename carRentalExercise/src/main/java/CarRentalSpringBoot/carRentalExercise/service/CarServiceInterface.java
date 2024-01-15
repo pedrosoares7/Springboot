@@ -11,6 +11,8 @@ public interface CarServiceInterface {
 
     Car getCar(Long carId);
 
+    CarCreateDto getCarCreateDto(Long carId);
+
     void addNewCar(CarCreateDto car);
 
     void updateCar(Long id, CarPatchDto car);

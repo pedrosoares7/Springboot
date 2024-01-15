@@ -3,9 +3,10 @@ package CarRentalSpringBoot.carRentalExercise.service;
 import CarRentalSpringBoot.carRentalExercise.converter.ClientConverter;
 import CarRentalSpringBoot.carRentalExercise.dto.clientDto.ClientCreateDto;
 import CarRentalSpringBoot.carRentalExercise.dto.clientDto.ClientPatchDto;
-import CarRentalSpringBoot.carRentalExercise.entity.Car;
 import CarRentalSpringBoot.carRentalExercise.entity.Client;
+import CarRentalSpringBoot.carRentalExercise.exceptions.AppExceptions;
 import CarRentalSpringBoot.carRentalExercise.repository.ClientRepository;
+import CarRentalSpringBoot.carRentalExercise.utilsmessage.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,41 +22,38 @@ public class ClientService implements ClientServiceInterface {
         this.clientRepository = clientRepository;
     }
 
-
-   /* public List<ClientCreateDto> getClient() {
-        List<Client> clients = clientRepository.findAll();
-        return clients.stream()
-                .map(ClientConverter::fromEntityToDto)
-                .toList();
-
-              //  from client list to client dto list
-    }*/
    @Override
    public List<ClientCreateDto> getClients() {
        List<Client> clients = clientRepository.findAll();
        return clients.stream()
                .map(ClientConverter::fromEntityToDto)
                .toList();
-      // return clientRepository.findAll();
-   }
-
+       }
     @Override
-    public Client getClient(Long carId) {
-        Optional<Client> clientOptional = clientRepository.findById(carId);
+    public ClientCreateDto getClientCreateDto (Long clientId) {
+        Optional<Client> clientOptional = clientRepository.findById(clientId);
         if (clientOptional.isEmpty()) {
-            throw new IllegalStateException("The car Id " + carId + " does not exist.");
+            throw new AppExceptions(clientId + Message.CLIENT_ID_NOT_EXISTS);
+        }
+        Client client = clientOptional.get();
+        return ClientConverter.fromEntityToDto(client);
+    }
+    @Override
+    public Client getClient (Long clientId) {
+        Optional<Client> clientOptional = clientRepository.findById(clientId);
+        if (clientOptional.isEmpty()) {
+            throw new AppExceptions(clientId + Message.CLIENT_ID_NOT_EXISTS);
         }
         return clientOptional.get();
+
     }
-
-
 
 
     @Override
     public void addNewClient(ClientCreateDto client) {
         Optional<Client> clientOptional = this.clientRepository.findByEmail(client.email());
         if (clientOptional.isPresent())
-            throw new IllegalStateException("email taken");
+            throw new AppExceptions(Message.EMAIL_TAKEN);
         Client newClient = ClientConverter.fromDtoToEntity(client);
         clientRepository.save(newClient);
     }
@@ -64,7 +62,7 @@ public class ClientService implements ClientServiceInterface {
     public void updateClient(Long id, ClientPatchDto client) {
         Optional<Client> clientOptional = clientRepository.findById(id);
         if (!clientOptional.isPresent()) {
-            throw new IllegalStateException("Client with id " + id + " does not exist");
+            throw new AppExceptions(client + Message.CLIENT_ID_NOT_EXISTS);
         }
         Client clientToUpdate = clientOptional.get();
         if (client.name() != null && client.name().length() > 0 && !client.name().equals(clientToUpdate.getName())) {
@@ -73,7 +71,7 @@ public class ClientService implements ClientServiceInterface {
         if (client.email() != null && client.email().length() > 0 && !client.email().equals(clientToUpdate.getEmail())) {
             Optional<Client> clientOptionalEmail = clientRepository.findByEmail(client.email());
             if (clientOptionalEmail.isPresent())
-                throw new IllegalStateException("email taken");
+                throw new AppExceptions(Message.EMAIL_TAKEN);
             clientToUpdate.setEmail(client.email());
         }
         /*if (client.dateOfBirth() != null && !client.dateOfBirth().equals(clientToUpdate.getDateOfBirth())) {
@@ -87,7 +85,7 @@ public class ClientService implements ClientServiceInterface {
     public void deleteClient(Long clientId) {
         boolean exists = clientRepository.existsById(clientId);
         if (!exists) {
-            throw new IllegalStateException("Client with id " + clientId + " does not exist");
+            throw new AppExceptions(clientId + Message.CLIENT_ID_NOT_EXISTS);
         }
         clientRepository.deleteById(clientId);
     }
@@ -98,7 +96,7 @@ public class ClientService implements ClientServiceInterface {
         client.setId(id);
         Optional<Client> clientOptional = clientRepository.findById(id);
         if (!clientOptional.isPresent()) {
-            throw new IllegalStateException("Client with id " + id + " does not exist");
+            throw new AppExceptions(id + Message.CLIENT_ID_NOT_EXISTS);
         }
         clientRepository.save(client);
     }

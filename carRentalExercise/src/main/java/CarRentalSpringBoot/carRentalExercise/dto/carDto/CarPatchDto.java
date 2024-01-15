@@ -6,7 +6,11 @@ import jakarta.validation.constraints.NotBlank;
 
 public record CarPatchDto(
 
-        @Valid
-        int km) {
+
+        int km,
+
+
+        double dailyRentalPrice
+) {
 
 }

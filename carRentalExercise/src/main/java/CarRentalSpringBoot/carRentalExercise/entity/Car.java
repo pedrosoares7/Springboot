@@ -21,7 +21,7 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "car")
+    @OneToMany(mappedBy = "car", fetch = FetchType.EAGER)
     private List<Rental> rental = new ArrayList<>();
 
     private String brand;
@@ -32,8 +32,7 @@ public class Car {
 
     private int km;
 
-    private LocalDate acquisitionDate;
-
+    private double dailyRentalPrice;
 
 
 }

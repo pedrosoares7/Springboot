@@ -5,6 +5,8 @@ import CarRentalSpringBoot.carRentalExercise.dto.clientDto.ClientCreateDto;
 import CarRentalSpringBoot.carRentalExercise.dto.clientDto.ClientPatchDto;
 import CarRentalSpringBoot.carRentalExercise.entity.Car;
 import CarRentalSpringBoot.carRentalExercise.entity.Client;
+import CarRentalSpringBoot.carRentalExercise.exceptions.ClientAlreadyExists;
+import CarRentalSpringBoot.carRentalExercise.exceptions.ClientIdNotFoundException;
 import CarRentalSpringBoot.carRentalExercise.service.ClientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,30 +35,30 @@ public class ClientController {
         return new ResponseEntity<>(clientService.getClients(),HttpStatus.OK);
     }
     @GetMapping("/{clientId}")//client por ID
-    public ResponseEntity<ClientCreateDto> getClientCreateDto (@PathVariable("clientId") Long clientId) {
+    public ResponseEntity<ClientCreateDto> getClientCreateDto (@PathVariable("clientId") Long clientId) throws ClientIdNotFoundException {
         return new ResponseEntity<>(clientService.getClientCreateDto(clientId), HttpStatus.OK);
     }
 
     @PostMapping("/")
-    public ResponseEntity<Client> addNewClient(@Valid @RequestBody ClientCreateDto client){
+    public ResponseEntity<Client> addNewClient(@Valid @RequestBody ClientCreateDto client) throws ClientAlreadyExists {
         clientService.addNewClient(client);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PatchMapping(path = "{clientId}")
-    public ResponseEntity<Client> updateClient(@PathVariable("clientId") Long id, @Valid @RequestBody ClientPatchDto client) {
+    public ResponseEntity<Client> updateClient(@PathVariable("clientId") Long id, @Valid @RequestBody ClientPatchDto client) throws ClientAlreadyExists, ClientIdNotFoundException {
         clientService.updateClient(id, client);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping(path = "{clientId}")
-    public ResponseEntity<Client> changeClient(@PathVariable("clientId") Long id, @Valid @RequestBody Client client) {
+    public ResponseEntity<Client> changeClient(@PathVariable("clientId") Long id, @Valid @RequestBody Client client) throws ClientIdNotFoundException {
         clientService.changeClient(id, client);
         client.setId(id);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     @DeleteMapping(path = "{clientId}")
-    public ResponseEntity<Client> deleteClient(@PathVariable("clientId") Long clientId) {
+    public ResponseEntity<Client> deleteClient(@PathVariable("clientId") Long clientId) throws ClientIdNotFoundException {
         clientService.deleteClient(clientId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

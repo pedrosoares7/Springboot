@@ -2,7 +2,7 @@ package CarRentalSpringBoot.carRentalExercise.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,7 +11,6 @@ import java.time.LocalDate;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

@@ -7,6 +7,8 @@ import CarRentalSpringBoot.carRentalExercise.dto.clientDto.ClientPatchDto;
 import CarRentalSpringBoot.carRentalExercise.entity.Car;
 import CarRentalSpringBoot.carRentalExercise.entity.Client;
 import CarRentalSpringBoot.carRentalExercise.entity.Rental;
+import CarRentalSpringBoot.carRentalExercise.exceptions.CarAlreadyExists;
+import CarRentalSpringBoot.carRentalExercise.exceptions.CarIdNotFoundException;
 import CarRentalSpringBoot.carRentalExercise.service.CarService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,23 +37,23 @@ public class CarController {
     }
 
     @GetMapping("/{carId}")//car por ID
-    public ResponseEntity<Car> getCar (@PathVariable("carId") Long carId) {
+    public ResponseEntity<Car> getCar (@PathVariable("carId") Long carId) throws CarIdNotFoundException {
         return new ResponseEntity<>(carService.getCar(carId), HttpStatus.OK);
     }
 
     @PostMapping("/")
-    public ResponseEntity<Car>addNewCar(@Valid @RequestBody CarCreateDto car){
+    public ResponseEntity<Car>addNewCar(@Valid @RequestBody CarCreateDto car) throws CarAlreadyExists {
         carService.addNewCar(car);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     @PatchMapping(path = "{carId}")
-    public ResponseEntity<Client> updateCar(@PathVariable("carId") Long id, @Valid @RequestBody CarPatchDto car) {
+    public ResponseEntity<Client> updateCar(@PathVariable("carId") Long id, @Valid @RequestBody CarPatchDto car) throws CarIdNotFoundException {
         carService.updateCar(id, car);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping(path = "{carId}")
-    public ResponseEntity<Car> changeCar(@PathVariable("carId") Long id, Car car) {
+    public ResponseEntity<Car> changeCar(@PathVariable("carId") Long id, Car car) throws CarIdNotFoundException {
         carService.changeCar(id, car);
         car.setId(id);
         return new ResponseEntity<>(HttpStatus.CREATED);

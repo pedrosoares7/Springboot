@@ -1,6 +1,6 @@
 package CarRentalSpringBoot.carRentalExercise.exceptions;
 
-public class AppExceptions extends RuntimeException{
+public class AppExceptions extends Exception{
 
 public AppExceptions(String message){
 

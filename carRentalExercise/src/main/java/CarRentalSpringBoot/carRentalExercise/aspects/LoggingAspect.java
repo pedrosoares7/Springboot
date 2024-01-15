@@ -15,7 +15,7 @@ public class LoggingAspect {
 
   private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
-  @Before("execution( * CarRentalSpringBoot.carRentalExercise.service.ClientService.AddNewClient(..))")
+  @Before("execution( * CarRentalSpringBoot.carRentalExercise.service.ClientService.addNewClient(..))")
   public void logBeforeServiceToCreate(JoinPoint joinPoint) {
     logger.info("Before " + joinPoint.getSignature().getName() + " method call");
   }
@@ -31,7 +31,7 @@ public void logAfterThrowing(JoinPoint joinPoint, Throwable exception){
       logger.error("Exception in " + joinPoint.getSignature().getName() + " method call");
       logger.error("Response: " + exception);
     }
-@Around("execution(* CarRentalSpringBoot.carRentalExercise.service.ClientService.GetClients(..))")
+@Around("execution(* CarRentalSpringBoot.carRentalExercise.service.ClientService.getClients(..))")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
       long startTime = System.currentTimeMillis();
       logger.info("Before " + joinPoint.getSignature().getName() + " method call");

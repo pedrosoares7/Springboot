@@ -3,6 +3,9 @@ package CarRentalSpringBoot.carRentalExercise.service;
 import CarRentalSpringBoot.carRentalExercise.dto.clientDto.ClientCreateDto;
 import CarRentalSpringBoot.carRentalExercise.dto.clientDto.ClientPatchDto;
 import CarRentalSpringBoot.carRentalExercise.entity.Client;
+import CarRentalSpringBoot.carRentalExercise.exceptions.AppExceptions;
+import CarRentalSpringBoot.carRentalExercise.exceptions.ClientAlreadyExists;
+import CarRentalSpringBoot.carRentalExercise.exceptions.ClientIdNotFoundException;
 
 import java.util.List;
 
@@ -17,15 +20,15 @@ public interface ClientServiceInterface {
          }*/
     List<ClientCreateDto> getClients();
 
-   Client getClient(Long clientId);
+   Client getClient(Long clientId) throws AppExceptions, ClientIdNotFoundException;
 
-   ClientCreateDto getClientCreateDto (Long clientId);
+   ClientCreateDto getClientCreateDto (Long clientId) throws ClientIdNotFoundException;
 
-    void addNewClient(ClientCreateDto client);
+    void addNewClient(ClientCreateDto client) throws ClientAlreadyExists;
 
-    void updateClient(Long id, ClientPatchDto client);
+    void updateClient(Long id, ClientPatchDto client) throws ClientIdNotFoundException, ClientAlreadyExists;
 
-    void deleteClient(Long clientId);
+    void deleteClient(Long clientId) throws ClientIdNotFoundException;
 
-    void changeClient(Long id, Client client);
+    void changeClient(Long id, Client client) throws ClientIdNotFoundException;
 }

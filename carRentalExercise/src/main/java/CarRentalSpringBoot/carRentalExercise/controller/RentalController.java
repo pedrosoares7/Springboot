@@ -8,6 +8,9 @@ import CarRentalSpringBoot.carRentalExercise.dto.rentalDto.RentalPatchDto;
 import CarRentalSpringBoot.carRentalExercise.entity.Car;
 import CarRentalSpringBoot.carRentalExercise.entity.Client;
 import CarRentalSpringBoot.carRentalExercise.entity.Rental;
+import CarRentalSpringBoot.carRentalExercise.exceptions.CarIdNotFoundException;
+import CarRentalSpringBoot.carRentalExercise.exceptions.ClientIdNotFoundException;
+import CarRentalSpringBoot.carRentalExercise.exceptions.RentalIdNotFoundException;
 import CarRentalSpringBoot.carRentalExercise.service.RentalService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,17 +37,17 @@ public class RentalController {
     }
 
     @GetMapping("/{rentalId}")//rental por ID
-    public ResponseEntity<Rental> getRental (@PathVariable("rentalId") Long rentalId){
+    public ResponseEntity<Rental> getRental (@PathVariable("rentalId") Long rentalId) throws RentalIdNotFoundException {
         return new ResponseEntity<>(rentalService.getRental(rentalId), HttpStatus.OK);
 }
     @PostMapping("/")
-    public ResponseEntity<Rental>addNewRental(@Valid @RequestBody RentalCreateDto rental){
+    public ResponseEntity<Rental>addNewRental(@Valid @RequestBody RentalCreateDto rental) throws CarIdNotFoundException, ClientIdNotFoundException {
         rentalService.addNewRental(rental);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     @PatchMapping(path = "{rentalId}")
     public ResponseEntity<Rental> updateRental(@PathVariable("rentalId") Long id,
-                                               @Valid @RequestBody RentalPatchDto rental) {
+                                               @Valid @RequestBody RentalPatchDto rental) throws RentalIdNotFoundException {
         rentalService.updateRental(id, rental);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

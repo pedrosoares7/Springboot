@@ -56,13 +56,13 @@ public class RentalService implements RentalServiceInterface {
     }
 
     @Override
-    public void addNewRental(RentalCreateDto rental) throws CarIdNotFoundException, ClientIdNotFoundException {
+    public Rental addNewRental(RentalCreateDto rental) throws CarIdNotFoundException, ClientIdNotFoundException {
         Car newCar = carService.getCar(rental.carId());
         Client newClient = clientService.getClient(rental.clientId());
         LocalDate starRentalDate = rental.rentalStartDate();
         LocalDate endRentalDate = rental.rentalEndDate();
         Rental newRental = new Rental(newCar,newClient, starRentalDate,endRentalDate);
-        rentalRepository.save(newRental);
+        return rentalRepository.save(newRental);
 
     }
 

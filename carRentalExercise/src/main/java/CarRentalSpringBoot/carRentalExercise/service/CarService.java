@@ -54,12 +54,12 @@ public class CarService implements CarServiceInterface {
 
 
     @Override
-    public void addNewCar(CarCreateDto car) throws CarAlreadyExists {
+    public Car addNewCar(CarCreateDto car) throws CarAlreadyExists {
         Optional<Car> carOptional = this.carRepository.findByPlate(car.plate());
         if (carOptional.isPresent())
             throw new CarAlreadyExists(car + Message.PLATE_ALREADY_TAKEN);
         Car newCar = carMapper.fromDtoToEntity(car);
-        carRepository.save(newCar);
+        return carRepository.save(newCar);
     }
 
 

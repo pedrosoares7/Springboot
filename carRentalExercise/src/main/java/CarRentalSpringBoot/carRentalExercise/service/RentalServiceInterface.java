@@ -18,7 +18,7 @@ public interface RentalServiceInterface {
 
     List<RentalCreateDto> getRentals();
 
-    void addNewRental(RentalCreateDto rental) throws RentalIdNotFoundException, AppExceptions, CarIdNotFoundException, ClientIdNotFoundException;
+    Rental addNewRental(RentalCreateDto rental) throws RentalIdNotFoundException, AppExceptions, CarIdNotFoundException, ClientIdNotFoundException;
 
     void updateRental(Long id, RentalPatchDto rental) throws AppExceptions, RentalIdNotFoundException;
 }

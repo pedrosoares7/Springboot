@@ -49,33 +49,27 @@ public class ClientService implements ClientServiceInterface {
 
 
     @Override
-    public void addNewClient(ClientCreateDto client) throws ClientAlreadyExists {
+    public Client addNewClient(ClientCreateDto client) throws ClientAlreadyExists {
         Optional<Client> clientOptional = this.clientRepository.findByEmail(client.email());
         if (clientOptional.isPresent())
             throw new ClientAlreadyExists(Message.EMAIL_TAKEN);
         Client newClient = clientMapper.fromDtoToEntity(client);
-        clientRepository.save(newClient);
+       return clientRepository.save(newClient);
     }
 
     @Override
-    public void updateClient(Long id, ClientPatchDto client) throws ClientIdNotFoundException, ClientAlreadyExists {
+    public void updateClient(Long id, ClientPatchDto client) throws ClientIdNotFoundException {
         Optional<Client> clientOptional = clientRepository.findById(id);
-        if (!clientOptional.isPresent()) {
+        if (clientOptional.isEmpty()) {
             throw new ClientIdNotFoundException(client + Message.CLIENT_ID_NOT_EXISTS);
         }
         Client clientToUpdate = clientOptional.get();
-        if (client.name() != null && client.name().length() > 0 && !client.name().equals(clientToUpdate.getName())) {
+        if (client.name() != null && !client.name().isEmpty() && !client.name().equals(clientToUpdate.getName())) {
             clientToUpdate.setName(client.name());
         }
-        if (client.email() != null && client.email().length() > 0 && !client.email().equals(clientToUpdate.getEmail())) {
-            Optional<Client> clientOptionalEmail = clientRepository.findByEmail(client.email());
-            if (clientOptionalEmail.isPresent())
-                throw new ClientAlreadyExists(Message.EMAIL_TAKEN);
-            clientToUpdate.setEmail(client.email());
+        if (client.email() != null && !client.email().isEmpty() && !client.email().equals(clientToUpdate.getEmail())) {
+          clientToUpdate.setEmail(client.email());
         }
-        /*if (client.dateOfBirth() != null && !client.dateOfBirth().equals(clientToUpdate.getDateOfBirth())) {
-            clientToUpdate.setDateOfBirth(client.dateOfBirth());
-        }*/
         clientRepository.save(clientToUpdate);
     }
 
@@ -94,7 +88,7 @@ public class ClientService implements ClientServiceInterface {
     public void changeClient(Long id, Client client) throws ClientIdNotFoundException {
         client.setId(id);
         Optional<Client> clientOptional = clientRepository.findById(id);
-        if (!clientOptional.isPresent()) {
+        if (clientOptional.isEmpty()) {
             throw new ClientIdNotFoundException(id + Message.CLIENT_ID_NOT_EXISTS);
         }
         clientRepository.save(client);

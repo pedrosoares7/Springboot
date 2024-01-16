@@ -15,7 +15,7 @@ public interface CarServiceInterface {
 
     CarCreateDto getCarCreateDto(Long carId) throws CarIdNotFoundException;
 
-    void addNewCar(CarCreateDto car) throws CarAlreadyExists;
+    Car addNewCar(CarCreateDto car) throws CarAlreadyExists;
 
     void updateCar(Long id, CarPatchDto car) throws CarIdNotFoundException;
 

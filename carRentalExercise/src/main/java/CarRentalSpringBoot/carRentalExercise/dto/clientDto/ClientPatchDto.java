@@ -1,17 +1,18 @@
 package CarRentalSpringBoot.carRentalExercise.dto.clientDto;
 
+
 import CarRentalSpringBoot.carRentalExercise.utilsmessage.Message;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+
 
 public record ClientPatchDto(
 
-
-        @NotNull(message = Message.NAME_MANDATORY)
+        @Valid
+       @Pattern(regexp = "[a-zA-Z]", message = "Please insert some letters.")
         String name,
 
-        @NotNull(message = Message.EMAIL_MANDATORY)
+        @Valid
         String email
 ) {
 }

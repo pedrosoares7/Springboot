@@ -11,7 +11,8 @@ public record ClientGetDto(
         @Valid
         @NotBlank(message = Message.NAME_MANDATORY)
         String name,
-
+        @Valid
+        @NotBlank(message = Message.NIF_MANDATORY)
         int nif
 
 ) {

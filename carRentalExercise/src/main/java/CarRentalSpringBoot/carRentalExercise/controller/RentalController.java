@@ -42,8 +42,7 @@ public class RentalController {
 }
     @PostMapping("/")
     public ResponseEntity<Rental>addNewRental(@Valid @RequestBody RentalCreateDto rental) throws CarIdNotFoundException, ClientIdNotFoundException {
-        rentalService.addNewRental(rental);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(rentalService.addNewRental(rental), HttpStatus.CREATED);
     }
     @PatchMapping(path = "{rentalId}")
     public ResponseEntity<Rental> updateRental(@PathVariable("rentalId") Long id,

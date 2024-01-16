@@ -24,9 +24,9 @@ public interface ClientServiceInterface {
 
    ClientCreateDto getClientCreateDto (Long clientId) throws ClientIdNotFoundException;
 
-    void addNewClient(ClientCreateDto client) throws ClientAlreadyExists;
+    Client addNewClient(ClientCreateDto client) throws ClientAlreadyExists;
 
-    void updateClient(Long id, ClientPatchDto client) throws ClientIdNotFoundException, ClientAlreadyExists;
+    void updateClient(Long id, ClientPatchDto client) throws ClientIdNotFoundException;
 
     void deleteClient(Long clientId) throws ClientIdNotFoundException;
 

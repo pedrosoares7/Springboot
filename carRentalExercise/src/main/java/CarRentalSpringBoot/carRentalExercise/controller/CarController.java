@@ -43,8 +43,8 @@ public class CarController {
 
     @PostMapping("/")
     public ResponseEntity<Car>addNewCar(@Valid @RequestBody CarCreateDto car) throws CarAlreadyExists {
-        carService.addNewCar(car);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+
+        return new ResponseEntity<>(carService.addNewCar(car),HttpStatus.CREATED);
     }
     @PatchMapping(path = "{carId}")
     public ResponseEntity<Client> updateCar(@PathVariable("carId") Long id, @Valid @RequestBody CarPatchDto car) throws CarIdNotFoundException {

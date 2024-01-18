@@ -2,6 +2,8 @@ package CarRentalSpringBoot.carRentalExercise.dto.rentalDto;
 
 import CarRentalSpringBoot.carRentalExercise.dto.carDto.CarGetDto;
 import CarRentalSpringBoot.carRentalExercise.dto.clientDto.ClientGetDto;
+import CarRentalSpringBoot.carRentalExercise.entity.Car;
+import CarRentalSpringBoot.carRentalExercise.entity.Client;
 
 import java.time.LocalDate;
 
@@ -16,5 +18,9 @@ public record RentalGetDto (
         LocalDate rentalStartDate,
 
         LocalDate rentalEndDate
+
+
 ){
+
+
 }

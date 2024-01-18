@@ -1,6 +1,7 @@
 package CarRentalSpringBoot.carRentalExercise.aspects;
 
 import CarRentalSpringBoot.carRentalExercise.exceptions.*;
+import CarRentalSpringBoot.carRentalExercise.utilsmessage.Message;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,33 +18,33 @@ public class RentaCarExceptionHandler {
     @ExceptionHandler(value = {ClientIdNotFoundException.class})
     public ResponseEntity<String> ClientIdNotFoundHandler (Exception ex) {
         logger.error("Known Exception: " + ex);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("That Client Id doesn't exist.");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Message.CLIENT_ID_NOT_EXISTS);
     }
     @ExceptionHandler(value = {CarIdNotFoundException.class})
     public ResponseEntity<String> CarIdNotFoundHandler (Exception ex) {
         logger.error("Known Exception: " + ex);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("That Car Id doesn't exist.");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Message.CAR_ID_DOES_NOT_EXISTS);
     }
 
     @ExceptionHandler(value = {RentalIdNotFoundException.class})
     public ResponseEntity<String> RentalIdNotFoundHandler (Exception ex) {
         logger.error("Known Exception: " + ex);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("That Rental Id doesn't exist.");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Message.RENTAL_ID_DOES_NOT_EXISTS);
     }
     @ExceptionHandler(value = {ClientAlreadyExists.class})
     public ResponseEntity<String> ClientAlreadyExistsHandler (Exception ex) {
         logger.error("Known Exception: " + ex);
-        return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Client already exists.");
+        return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(Message.CLIENT_ID_ALREADY_EXISTS);
     }
     @ExceptionHandler(value = {CarAlreadyExists.class})
     public ResponseEntity<String> CarAlreadyExistsHandler (Exception ex) {
         logger.error("Known Exception: " + ex);
-        return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Car already exists.");
+        return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(Message.CAR_ID_ALREADY_EXISTS);
     }
     @ExceptionHandler(value = {RentalAlreadyExists.class})
     public ResponseEntity<String> RentalAlreadyExistsHandler (Exception ex) {
         logger.error("Known Exception: " + ex);
-        return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Rental already exists.");
+        return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(Message.RENTAL_ID_ALREADY_EXISTS);
     }
 }
 

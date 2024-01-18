@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record CarCreateDto(
-        Long id,
 
         @NotNull(message = Message.CAR_BRAND_MANDATORY)
         String brand,
@@ -24,6 +23,8 @@ public record CarCreateDto(
 
         @NotNull(message = Message.DAILY_RENTAL_PRICE_MANDATORY)
         double dailyRentalPrice
+
+
 
 
 ) {

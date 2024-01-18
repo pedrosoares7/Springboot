@@ -7,15 +7,15 @@ import java.time.LocalDate;
 
 public record RentalCreateDto(
 
-
         Long carId,
 
         Long clientId,
-      //  double rentalPrice,
 
         LocalDate rentalStartDate,
 
         LocalDate rentalEndDate
+
+
 
 ) {
 }

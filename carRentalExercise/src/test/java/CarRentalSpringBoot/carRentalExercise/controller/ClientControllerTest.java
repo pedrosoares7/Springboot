@@ -1,7 +1,7 @@
-package CarRentalSpringBoot.carRentalExercise;
+package CarRentalSpringBoot.carRentalExercise.controller;
 
 import CarRentalSpringBoot.carRentalExercise.entity.Client;
-import CarRentalSpringBoot.carRentalExercise.repository.CarRepository;
+
 import CarRentalSpringBoot.carRentalExercise.repository.ClientRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -23,17 +23,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class CarRentalExerciseApplicationTests {
+class ClientControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 
 	@Autowired
 	private ClientRepository clientRepository;
-	private CarRepository carRepository;
-
-
 
 	private static ObjectMapper objectMapper;
+
+	ClientControllerTest() {
+	}
 
 	@BeforeAll
 	public static void setUp() {
@@ -45,6 +45,7 @@ class CarRentalExerciseApplicationTests {
 	public void init() {
 		clientRepository.deleteAll();
 		clientRepository.resetAutoIncrement();
+
 	}
 	@Test
 	void contextLoads() {
@@ -60,10 +61,10 @@ class CarRentalExerciseApplicationTests {
 	}
 	@Test
 	@DisplayName("Test create a client when client returns status code 201")
-	public void testCreateStudentReturnCreateAndGetIdEqualsTo1() throws Exception {
+	public void testCreateClientReturnCreateAndGetIdEqualsTo1() throws Exception {
 
 		//Given
-		String clientJson = "{\"name\": \"João\", \"email\": \"j@eee.com\", \"dateOfBirth\": \"1990-01-01\",\"nif\": \"123456789\", \"driversLicense\": \"365241\"}";
+		String clientJson = "{\"name\": \"João\", \"email\": \"j@eee.com\", \"dateOfBirth\": \"1990-01-01\",\"nif\": \"123456789\", \"driversLicense\": \"365241555\"}";
 
 		//When
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/clients/")
@@ -81,6 +82,7 @@ class CarRentalExerciseApplicationTests {
 		assertThat(client.getId()).isEqualTo(1L);
 		assertThat(client.getName()).isEqualTo("João");
 		assertThat(client.getEmail()).isEqualTo("j@eee.com");
+		assertThat(client.getNif()).isEqualTo(123456789);
 
 	}
 	@Test
@@ -89,13 +91,13 @@ class CarRentalExerciseApplicationTests {
 		// Create 2 clients (ex.)
 		mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/clients/")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content("{\"name\": \"João\", \"email\": \"j@eee.com\", \"dateOfBirth\": \"1990-01-01\"," +
-						" \"nif\": \"123456789\", \"driversLicense\": \"365241\"}"));
+				.content("{\"name\": \"Joao\", \"email\": \"j@eee.com\", \"dateOfBirth\": \"1990-01-01\"," +
+						" \"nif\": \"123456789\", \"driversLicense\": \"365241555\"}"));
 
 		mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/clients/")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\"name\": \"Maria\", \"email\": \"s@eee.com\", \"dateOfBirth\": \"1992-01-01\"," +
-						" \"nif\": \"7894569\", \"driversLicense\": \"879564\"}"));
+						" \"nif\": \"789456988\", \"driversLicense\": \"879564555\"}"));
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/clients/"))
 				.andExpect(status().isOk())

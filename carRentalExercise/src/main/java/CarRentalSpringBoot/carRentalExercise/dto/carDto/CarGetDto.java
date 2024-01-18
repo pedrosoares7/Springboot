@@ -7,5 +7,5 @@ public record CarGetDto (
 
         double dailyRentalPrice
 
-){
+        ){
 }

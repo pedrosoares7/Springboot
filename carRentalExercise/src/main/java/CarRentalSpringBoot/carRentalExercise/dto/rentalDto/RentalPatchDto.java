@@ -7,10 +7,11 @@ import java.time.LocalDate;
 public record RentalPatchDto(
 
         Long Id,
-     //   double rentalPrice,
 
         @Valid
         LocalDate rentalEndDate
+
+
 
 ) {
 }

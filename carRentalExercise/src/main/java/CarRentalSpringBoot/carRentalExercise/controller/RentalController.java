@@ -9,6 +9,7 @@ import CarRentalSpringBoot.carRentalExercise.entity.Car;
 import CarRentalSpringBoot.carRentalExercise.entity.Client;
 import CarRentalSpringBoot.carRentalExercise.entity.Rental;
 import CarRentalSpringBoot.carRentalExercise.exceptions.CarIdNotFoundException;
+import CarRentalSpringBoot.carRentalExercise.exceptions.CarIsNotAvailableException;
 import CarRentalSpringBoot.carRentalExercise.exceptions.ClientIdNotFoundException;
 import CarRentalSpringBoot.carRentalExercise.exceptions.RentalIdNotFoundException;
 import CarRentalSpringBoot.carRentalExercise.service.RentalService;
@@ -41,7 +42,7 @@ public class RentalController {
         return new ResponseEntity<>(rentalService.getRental(rentalId), HttpStatus.OK);
 }
     @PostMapping("/")
-    public ResponseEntity<Rental>addNewRental(@Valid @RequestBody RentalCreateDto rental) throws CarIdNotFoundException, ClientIdNotFoundException {
+    public ResponseEntity<Rental>addNewRental(@Valid @RequestBody RentalCreateDto rental) throws CarIdNotFoundException, ClientIdNotFoundException, CarIsNotAvailableException {
         return new ResponseEntity<>(rentalService.addNewRental(rental), HttpStatus.CREATED);
     }
     @PatchMapping(path = "{rentalId}")

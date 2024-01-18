@@ -3,6 +3,7 @@ package CarRentalSpringBoot.carRentalExercise.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,8 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "cars")
 public class Car {
@@ -34,4 +34,16 @@ public class Car {
     private double dailyRentalPrice;
 
 
+    public Car(Long id, List<Rental> rental, String brand, String plate, int horsePower, int km, double dailyRentalPrice) {
+        this.id = id;
+        this.rental = rental;
+        this.brand = brand;
+        this.plate = plate;
+        this.horsePower = horsePower;
+        this.km = km;
+        this.dailyRentalPrice = dailyRentalPrice;
+    }
+
+    public Car() {
+    }
 }

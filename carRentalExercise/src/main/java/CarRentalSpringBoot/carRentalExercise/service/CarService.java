@@ -2,12 +2,12 @@ package CarRentalSpringBoot.carRentalExercise.service;
 
 
 
+import CarRentalSpringBoot.carRentalExercise.converter.CarConverter;
 import CarRentalSpringBoot.carRentalExercise.dto.carDto.CarCreateDto;
 import CarRentalSpringBoot.carRentalExercise.dto.carDto.CarPatchDto;
 import CarRentalSpringBoot.carRentalExercise.entity.Car;
 import CarRentalSpringBoot.carRentalExercise.exceptions.CarAlreadyExists;
 import CarRentalSpringBoot.carRentalExercise.exceptions.CarIdNotFoundException;
-import CarRentalSpringBoot.carRentalExercise.mapper.CarMapper;
 import CarRentalSpringBoot.carRentalExercise.repository.CarRepository;
 import CarRentalSpringBoot.carRentalExercise.utilsmessage.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +18,18 @@ import java.util.Optional;
 
 @Service
 public class CarService implements CarServiceInterface {
-    @Autowired
-    private CarRepository carRepository;
 
+    private final CarRepository carRepository;
     @Autowired
-    private CarMapper carMapper;
+    public CarService(CarRepository carRepository) {
+        this.carRepository = carRepository;
+    }
 
     @Override
     public List<CarCreateDto> getCars() {
         List<Car> cars = carRepository.findAll();
         return cars.stream()
-                .map(carMapper::fromEntityToDto)
+                .map(CarConverter::fromEntityToDto)
                 .toList();
 
     }
@@ -40,7 +41,7 @@ public class CarService implements CarServiceInterface {
             throw new CarIdNotFoundException(carId + Message.CAR_ID_DOES_NOT_EXISTS);
         }
         Car car = carOptional.get();
-        return carMapper.fromEntityToDto(car);
+        return CarConverter.fromEntityToDto(car);
     }
 
     @Override
@@ -58,7 +59,7 @@ public class CarService implements CarServiceInterface {
         Optional<Car> carOptional = this.carRepository.findByPlate(car.plate());
         if (carOptional.isPresent())
             throw new CarAlreadyExists(car + Message.PLATE_ALREADY_TAKEN);
-        Car newCar = carMapper.fromDtoToEntity(car);
+        Car newCar = CarConverter.fromDtoToEntity(car);
         return carRepository.save(newCar);
     }
 

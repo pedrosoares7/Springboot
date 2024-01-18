@@ -9,7 +9,9 @@ import CarRentalSpringBoot.carRentalExercise.exceptions.ClientIdNotFoundExceptio
 
 import java.util.List;
 
+
 public interface ClientServiceInterface {
+
     /* public List<ClientCreateDto> getClient() {
              List<Client> clients = clientRepository.findAll();
              return clients.stream()

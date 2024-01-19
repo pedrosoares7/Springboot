@@ -33,8 +33,10 @@ public class Car {
 
     private double dailyRentalPrice;
 
+    private boolean isAvailable;
 
-    public Car(Long id, List<Rental> rental, String brand, String plate, int horsePower, int km, double dailyRentalPrice) {
+
+    public Car(Long id, List<Rental> rental, String brand, String plate, int horsePower, int km, double dailyRentalPrice, boolean isAvailable) {
         this.id = id;
         this.rental = rental;
         this.brand = brand;
@@ -42,6 +44,7 @@ public class Car {
         this.horsePower = horsePower;
         this.km = km;
         this.dailyRentalPrice = dailyRentalPrice;
+        this.isAvailable = true;
     }
 
     public Car() {

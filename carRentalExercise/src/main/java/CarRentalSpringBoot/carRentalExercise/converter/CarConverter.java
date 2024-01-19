@@ -11,7 +11,8 @@ public class CarConverter {
                 cars.getPlate(),
                 cars.getHorsePower(),
                 cars.getKm(),
-                cars.getDailyRentalPrice()
+                cars.getDailyRentalPrice(),
+                cars.isAvailable()
 
 
         );
@@ -21,8 +22,8 @@ public class CarConverter {
        return new CarGetDto(
                cars.getBrand(),
                cars.getPlate(),
-               cars.getDailyRentalPrice()
-
+               cars.getDailyRentalPrice(),
+                cars.isAvailable()
        );
     }
 

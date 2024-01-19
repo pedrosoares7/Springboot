@@ -5,7 +5,7 @@ public record CarGetDto (
         String brand,
         String plate,
 
-        double dailyRentalPrice
+        double dailyRentalPrice,
 
-        ){
+        boolean available){
 }

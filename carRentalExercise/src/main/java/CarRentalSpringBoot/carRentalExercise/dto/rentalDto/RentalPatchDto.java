@@ -9,9 +9,9 @@ public record RentalPatchDto(
         Long Id,
 
         @Valid
-        LocalDate rentalEndDate
+        LocalDate rentalEndDate,
 
-
+        boolean isRentalTerminated
 
 ) {
 }

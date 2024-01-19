@@ -2,8 +2,6 @@ package CarRentalSpringBoot.carRentalExercise.dto.carDto;
 
 
 import CarRentalSpringBoot.carRentalExercise.utilsmessage.Message;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record CarCreateDto(
@@ -22,11 +20,10 @@ public record CarCreateDto(
 
 
         @NotNull(message = Message.DAILY_RENTAL_PRICE_MANDATORY)
-        double dailyRentalPrice
+        double dailyRentalPrice,
 
 
+        boolean available) {
 
-
-) {
 
 }

@@ -25,7 +25,8 @@ public class RentalConverter {
                CarConverter.fromEntityToCarGetToDto(rental.getCar()),
                rental.getRentalPrice(),
                rental.getRentalStartDate(),
-               rental.getRentalEndDate()
+               rental.getRentalEndDate(),
+               rental.isRentalTerminated()
 
        );
     }

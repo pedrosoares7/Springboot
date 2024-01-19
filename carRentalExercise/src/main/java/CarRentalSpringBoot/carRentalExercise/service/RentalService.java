@@ -64,9 +64,9 @@ public class RentalService implements RentalServiceInterface {
     @Override
     public Rental addNewRental(RentalCreateDto rental) throws CarIdNotFoundException, ClientIdNotFoundException, CarIsNotAvailableException {
         Car newCar = carService.getCar(rental.carId());
-     //   if(!newCar.isAvailable()){
-     //       throw new CarIsNotAvailableException(rental.carId() + Message.CAR_IS_NOT_AVAILABLE);
-      //  }
+        if(!newCar.isAvailable()){
+           throw new CarIsNotAvailableException(rental.carId() + Message.CAR_IS_NOT_AVAILABLE);
+        }
         Client newClient = clientService.getClient(rental.clientId());
         LocalDate starRentalDate = rental.rentalStartDate();
         LocalDate endRentalDate = rental.rentalEndDate();
@@ -84,11 +84,13 @@ public class RentalService implements RentalServiceInterface {
         Rental rentalToUpdate = rentalOptional.get();
         if (rental.rentalEndDate() != null && !rental.rentalEndDate().equals(rentalToUpdate.getRentalEndDate())) {
             rentalToUpdate.setRentalEndDate(rental.rentalEndDate());
-         //  rentalToUpdate.getCar().setAvailable(true);
+            rentalToUpdate.setRentalPrice();
         }
 
-       // rentalToUpdate.setRentTerminated(rental.rentTerminated());
-       // rentalToUpdate.getCar().setAvailable(true);
+        rentalToUpdate.setRentalTerminated(rental.isRentalTerminated());
+       if(rentalToUpdate.isRentalTerminated()){
+           rentalToUpdate.getCar().setAvailable(true);
+       }
         rentalRepository.save(rentalToUpdate);
     }
 }

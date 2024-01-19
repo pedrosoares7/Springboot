@@ -17,9 +17,9 @@ public record RentalGetDto (
 
         LocalDate rentalStartDate,
 
-        LocalDate rentalEndDate
+        LocalDate rentalEndDate,
 
-
+        boolean isRentalTerminated
 ){
 
 

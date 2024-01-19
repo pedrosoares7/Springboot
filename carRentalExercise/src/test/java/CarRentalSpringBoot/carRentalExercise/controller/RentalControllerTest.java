@@ -84,9 +84,9 @@ class RentalControllerTest {
     public void testCreateRentalReturnCreateAndGetIdEqualsTo1() throws Exception {
 
         //Given
-        String carJson = "{\"brand\": \"BMW\", \"plate\": \"XX-01-XX\", \"horsePower\": \"1500\",\"km\": \"1000\", \"dailyRentalPrice\": \"50\"}";
+        String carJson = "{\"brand\": \"BMW\", \"plate\": \"XX-01-XX\", \"horsePower\": \"1500\",\"km\": \"1000\", \"dailyRentalPrice\": \"50\",\"isAvailable\": \"true\"}";
         String clientJson = "{\"name\": \"João\", \"email\": \"j@eee.com\", \"dateOfBirth\": \"1990-01-01\",\"nif\": \"123456789\", \"driversLicense\": \"365241555\"}";
-        String rentalJson = "{\"carId\": \"1\", \"clientId\": \"1\", \"rentalStartDate\": \"2024-01-05\",\"rentalEndDate\": \"2024-01-15\"}";
+        String rentalJson = "{\"carId\": \"1\", \"clientId\": \"1\", \"rentalStartDate\": \"2024-01-05\",\"rentalEndDate\": \"2024-01-15\",\"isRentalTerminated\": \"false\"}";
 
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/cars/")
@@ -141,20 +141,20 @@ class RentalControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/cars/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"brand\": \"BMW\", \"plate\": \"XX-01-XX\", \"horsePower\": \"1500\"," +
-                        " \"km\": \"1000\", \"dailyRentalPrice\": \"50\"}"));
+                        " \"km\": \"1000\", \"dailyRentalPrice\": \"50\",\"isAvailable\": \"true\"}"));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/cars/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"brand\": \"Mercedes\", \"plate\": \"SS-01-SS\", \"horsePower\": \"1900\"," +
-                        " \"km\": \"1500\", \"dailyRentalPrice\": \"80\"}"));
+                        " \"km\": \"1500\", \"dailyRentalPrice\": \"80\",\"isAvailable\": \"true\"}"));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/rentals/")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content( "{\"carId\": \"1\", \"clientId\": \"1\", \"rentalStartDate\": \"2024-01-05\",\"rentalEndDate\": \"2024-01-15\"}"));
+                .content( "{\"carId\": \"1\", \"clientId\": \"1\", \"rentalStartDate\": \"2024-01-05\",\"rentalEndDate\": \"2024-01-15\",\"isRentalTerminated\": \"false\"}"));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/rentals/")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content( "{\"carId\": \"2\", \"clientId\": \"2\", \"rentalStartDate\": \"2024-01-06\",\"rentalEndDate\": \"2024-01-16\"}"));
+                .content( "{\"carId\": \"2\", \"clientId\": \"2\", \"rentalStartDate\": \"2024-01-06\",\"rentalEndDate\": \"2024-01-16\",\"isRentalTerminated\": \"false\"}"));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/rentals/"))
                 .andExpect(status().isOk())

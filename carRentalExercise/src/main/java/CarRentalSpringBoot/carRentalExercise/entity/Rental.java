@@ -32,6 +32,8 @@ public class Rental {
 
     private LocalDate rentalEndDate;
 
+    private boolean isRentalTerminated;
+
 
 
 
@@ -44,19 +46,20 @@ public class Rental {
 
     }
 
-    public Rental(Long id, Client client, Car car, double rentalPrice, LocalDate rentalStartDate, LocalDate rentalEndDate) {
+    public Rental(Long id, Client client, Car car, double rentalPrice, LocalDate rentalStartDate, LocalDate rentalEndDate, boolean isRentalTerminated) {
         this.id = id;
         this.client = client;
         this.car = car;
         this.rentalPrice = rentalPrice;
         this.rentalStartDate = rentalStartDate;
         this.rentalEndDate = rentalEndDate;
+        this.isRentalTerminated = isRentalTerminated;
     }
 
     public Rental() {
     }
 
-    private void setRentalPrice() {
+     public void setRentalPrice() {
 
         long daysBetween = DAYS.between(rentalStartDate, rentalEndDate);
         this.rentalPrice = daysBetween * car.getDailyRentalPrice();

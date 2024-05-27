@@ -14,7 +14,6 @@ import CarRentalSpringBoot.carRentalExercise.exceptions.ClientIdNotFoundExceptio
 import CarRentalSpringBoot.carRentalExercise.exceptions.RentalIdNotFoundException;
 import CarRentalSpringBoot.carRentalExercise.repository.RentalRepository;
 import CarRentalSpringBoot.carRentalExercise.utilsmessage.Message;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +29,7 @@ public class RentalService implements RentalServiceInterface {
     private final CarService carService;
 
     private final ClientService clientService;
+
     @Autowired
     public RentalService(RentalRepository rentalRepository, CarService carService, ClientService clientService) {
         this.rentalRepository = rentalRepository;
@@ -45,6 +45,7 @@ public class RentalService implements RentalServiceInterface {
                 .map(RentalConverter::fromEntityToRentalGetDto)
                 .toList();
     }
+
     @Override
     public List<RentalCreateDto> getRentals() {
         List<Rental> rentals = rentalRepository.findAll();
@@ -52,6 +53,7 @@ public class RentalService implements RentalServiceInterface {
                 .map(RentalConverter::fromEntityRentalToDto)
                 .toList();
     }
+
     @Override
     public Rental getRental(Long rentalId) throws RentalIdNotFoundException {
         Optional<Rental> rentalOptional = rentalRepository.findById(rentalId);
@@ -62,16 +64,18 @@ public class RentalService implements RentalServiceInterface {
     }
 
     @Override
-    public Rental addNewRental(RentalCreateDto rental) throws CarIdNotFoundException, ClientIdNotFoundException, CarIsNotAvailableException {
+    public RentalGetDto addNewRental(RentalCreateDto rental) throws CarIdNotFoundException, ClientIdNotFoundException, CarIsNotAvailableException {
         Car newCar = carService.getCar(rental.carId());
-        if(!newCar.isAvailable()){
-           throw new CarIsNotAvailableException(rental.carId() + Message.CAR_IS_NOT_AVAILABLE);
+        if (!newCar.isAvailable()) {
+            throw new CarIsNotAvailableException(rental.carId() + Message.CAR_IS_NOT_AVAILABLE);
         }
         Client newClient = clientService.getClient(rental.clientId());
         LocalDate starRentalDate = rental.rentalStartDate();
         LocalDate endRentalDate = rental.rentalEndDate();
-        Rental newRental = new Rental(newCar,newClient, starRentalDate,endRentalDate);
-        return rentalRepository.save(newRental);
+        Rental newRental = new Rental(newCar, newClient, starRentalDate, endRentalDate);
+        newRental.getCar().setAvailable(false);
+        Rental rentalToSave = rentalRepository.save(newRental);
+        return RentalConverter.fromEntityToRentalGetDto(rentalToSave);
 
     }
 
@@ -88,9 +92,9 @@ public class RentalService implements RentalServiceInterface {
         }
 
         rentalToUpdate.setRentalTerminated(rental.isRentalTerminated());
-       if(rentalToUpdate.isRentalTerminated()){
-           rentalToUpdate.getCar().setAvailable(true);
-       }
+        if (rentalToUpdate.isRentalTerminated()) {
+            rentalToUpdate.getCar().setAvailable(true);
+        }
         rentalRepository.save(rentalToUpdate);
     }
 }

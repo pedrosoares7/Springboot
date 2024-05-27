@@ -2,12 +2,14 @@ package CarRentalSpringBoot.carRentalExercise.dto.rentalDto;
 
 import CarRentalSpringBoot.carRentalExercise.dto.carDto.CarGetDto;
 import CarRentalSpringBoot.carRentalExercise.dto.clientDto.ClientGetDto;
-import CarRentalSpringBoot.carRentalExercise.entity.Car;
-import CarRentalSpringBoot.carRentalExercise.entity.Client;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDate;
 
-public record RentalGetDto (
+@JsonIgnoreProperties(ignoreUnknown = true)
+public record RentalGetDto(
+
+        Long id,
 
         ClientGetDto client,
 
@@ -20,7 +22,7 @@ public record RentalGetDto (
         LocalDate rentalEndDate,
 
         boolean isRentalTerminated
-){
+) {
 
 
 }

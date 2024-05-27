@@ -1,11 +1,9 @@
 package CarRentalSpringBoot.carRentalExercise.controller;
 
-import CarRentalSpringBoot.carRentalExercise.entity.Car;
-import CarRentalSpringBoot.carRentalExercise.entity.Rental;
+import CarRentalSpringBoot.carRentalExercise.dto.rentalDto.RentalGetDto;
 import CarRentalSpringBoot.carRentalExercise.repository.CarRepository;
 import CarRentalSpringBoot.carRentalExercise.repository.ClientRepository;
 import CarRentalSpringBoot.carRentalExercise.repository.RentalRepository;
-import ch.qos.logback.core.net.server.Client;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeAll;
@@ -22,7 +20,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -30,19 +27,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class RentalControllerTest {
 
+    private static ObjectMapper objectMapper;
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private RentalRepository rentalRepository;
-
     @Autowired
     private ClientRepository clientRepository;
-
     @Autowired
     private CarRepository carRepository;
-
-    private static ObjectMapper objectMapper;
 
     RentalControllerTest() {
 
@@ -111,15 +104,15 @@ class RentalControllerTest {
         //Then
         String responseContent = new String(result.getResponse().getContentAsByteArray());
 
-        Rental rental = objectMapper.readValue(responseContent, Rental.class);
+        RentalGetDto rental = objectMapper.readValue(responseContent, RentalGetDto.class);
 
         //assert student id and name using matchers
 
-        assertThat(rental.getId()).isEqualTo(1L);
-        assertThat(rental.getCar().getId()).isEqualTo(1);
-        assertThat(rental.getClient().getId()).isEqualTo(1);
-        assertThat(rental.getRentalStartDate()).isEqualTo("2024-01-05");
-        assertThat(rental.getRentalEndDate()).isEqualTo("2024-01-15");
+        assertThat(rental.id()).isEqualTo(1L);
+        assertThat(rental.car().plate()).isEqualTo("XX-01-XX");
+        assertThat(rental.client().nif()).isEqualTo(123456789);
+        assertThat(rental.rentalStartDate()).isEqualTo("2024-01-05");
+        assertThat(rental.rentalEndDate()).isEqualTo("2024-01-15");
 
     }
 
@@ -150,11 +143,11 @@ class RentalControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/rentals/")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content( "{\"carId\": \"1\", \"clientId\": \"1\", \"rentalStartDate\": \"2024-01-05\",\"rentalEndDate\": \"2024-01-15\",\"isRentalTerminated\": \"false\"}"));
+                .content("{\"carId\": \"1\", \"clientId\": \"1\", \"rentalStartDate\": \"2024-01-05\",\"rentalEndDate\": \"2024-01-15\",\"isRentalTerminated\": \"false\"}"));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/rentals/")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content( "{\"carId\": \"2\", \"clientId\": \"2\", \"rentalStartDate\": \"2024-01-06\",\"rentalEndDate\": \"2024-01-16\",\"isRentalTerminated\": \"false\"}"));
+                .content("{\"carId\": \"2\", \"clientId\": \"2\", \"rentalStartDate\": \"2024-01-06\",\"rentalEndDate\": \"2024-01-16\",\"isRentalTerminated\": \"false\"}"));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/rentals/"))
                 .andExpect(status().isOk())

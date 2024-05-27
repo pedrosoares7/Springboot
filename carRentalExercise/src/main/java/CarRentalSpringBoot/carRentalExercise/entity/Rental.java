@@ -1,10 +1,8 @@
 package CarRentalSpringBoot.carRentalExercise.entity;
 
 import jakarta.persistence.*;
-
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
@@ -35,14 +33,13 @@ public class Rental {
     private boolean isRentalTerminated;
 
 
-
-
     public Rental(Car newCar, Client newClient, LocalDate rentalStartDate, LocalDate rentalEndDate) {
         this.car = newCar;
         this.client = newClient;
         this.rentalStartDate = rentalStartDate;
         this.rentalEndDate = rentalEndDate;
         setRentalPrice();
+        newCar.setAvailable(false);
 
     }
 
@@ -59,7 +56,7 @@ public class Rental {
     public Rental() {
     }
 
-     public void setRentalPrice() {
+    public void setRentalPrice() {
 
         long daysBetween = DAYS.between(rentalStartDate, rentalEndDate);
         this.rentalPrice = daysBetween * car.getDailyRentalPrice();
@@ -67,8 +64,7 @@ public class Rental {
     }
 
 
-
-   }
+}
 
 
 

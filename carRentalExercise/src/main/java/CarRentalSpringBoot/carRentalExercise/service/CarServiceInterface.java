@@ -1,6 +1,7 @@
 package CarRentalSpringBoot.carRentalExercise.service;
 
 import CarRentalSpringBoot.carRentalExercise.dto.carDto.CarCreateDto;
+import CarRentalSpringBoot.carRentalExercise.dto.carDto.CarGetDto;
 import CarRentalSpringBoot.carRentalExercise.dto.carDto.CarPatchDto;
 import CarRentalSpringBoot.carRentalExercise.entity.Car;
 import CarRentalSpringBoot.carRentalExercise.exceptions.CarAlreadyExists;
@@ -15,9 +16,9 @@ public interface CarServiceInterface {
 
     CarCreateDto getCarCreateDto(Long carId) throws CarIdNotFoundException;
 
-    Car addNewCar(CarCreateDto car) throws CarAlreadyExists;
+    CarCreateDto addNewCar(CarCreateDto car) throws CarAlreadyExists;
 
-    void updateCar(Long id, CarPatchDto car) throws CarIdNotFoundException;
+    CarGetDto updateCar(Long id, CarPatchDto car) throws CarIdNotFoundException;
 
-    void changeCar(Long id, Car car) throws CarIdNotFoundException;
+    CarGetDto changeCar(Long id, Car car) throws CarIdNotFoundException;
 }

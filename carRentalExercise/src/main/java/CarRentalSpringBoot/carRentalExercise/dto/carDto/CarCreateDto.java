@@ -20,10 +20,8 @@ public record CarCreateDto(
 
 
         @NotNull(message = Message.DAILY_RENTAL_PRICE_MANDATORY)
-        double dailyRentalPrice,
+        double dailyRentalPrice
 
-
-        boolean available) {
-
+) {
 
 }

@@ -4,7 +4,10 @@ import CarRentalSpringBoot.carRentalExercise.dto.rentalDto.RentalCreateDto;
 import CarRentalSpringBoot.carRentalExercise.dto.rentalDto.RentalGetDto;
 import CarRentalSpringBoot.carRentalExercise.dto.rentalDto.RentalPatchDto;
 import CarRentalSpringBoot.carRentalExercise.entity.Rental;
-import CarRentalSpringBoot.carRentalExercise.exceptions.*;
+import CarRentalSpringBoot.carRentalExercise.exceptions.CarIdNotFoundException;
+import CarRentalSpringBoot.carRentalExercise.exceptions.CarIsNotAvailableException;
+import CarRentalSpringBoot.carRentalExercise.exceptions.ClientIdNotFoundException;
+import CarRentalSpringBoot.carRentalExercise.exceptions.RentalIdNotFoundException;
 
 import java.util.List;
 
@@ -15,7 +18,7 @@ public interface RentalServiceInterface {
 
     List<RentalCreateDto> getRentals();
 
-    Rental addNewRental(RentalCreateDto rental) throws RentalIdNotFoundException, AppExceptions, CarIdNotFoundException, ClientIdNotFoundException, CarIsNotAvailableException;
+    RentalGetDto addNewRental(RentalCreateDto rental) throws RentalIdNotFoundException, CarIdNotFoundException, ClientIdNotFoundException, CarIsNotAvailableException;
 
-    void updateRental(Long id, RentalPatchDto rental) throws AppExceptions, RentalIdNotFoundException;
+    void updateRental(Long id, RentalPatchDto rental) throws RentalIdNotFoundException;
 }

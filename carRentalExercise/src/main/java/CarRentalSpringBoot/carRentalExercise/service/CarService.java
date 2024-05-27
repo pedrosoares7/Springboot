@@ -1,9 +1,9 @@
 package CarRentalSpringBoot.carRentalExercise.service;
 
 
-
 import CarRentalSpringBoot.carRentalExercise.converter.CarConverter;
 import CarRentalSpringBoot.carRentalExercise.dto.carDto.CarCreateDto;
+import CarRentalSpringBoot.carRentalExercise.dto.carDto.CarGetDto;
 import CarRentalSpringBoot.carRentalExercise.dto.carDto.CarPatchDto;
 import CarRentalSpringBoot.carRentalExercise.entity.Car;
 import CarRentalSpringBoot.carRentalExercise.exceptions.CarAlreadyExists;
@@ -20,6 +20,7 @@ import java.util.Optional;
 public class CarService implements CarServiceInterface {
 
     private final CarRepository carRepository;
+
     @Autowired
     public CarService(CarRepository carRepository) {
         this.carRepository = carRepository;
@@ -55,17 +56,18 @@ public class CarService implements CarServiceInterface {
 
 
     @Override
-    public Car addNewCar(CarCreateDto car) throws CarAlreadyExists {
+    public CarCreateDto addNewCar(CarCreateDto car) throws CarAlreadyExists {
         Optional<Car> carOptional = this.carRepository.findByPlate(car.plate());
         if (carOptional.isPresent())
             throw new CarAlreadyExists(car + Message.PLATE_ALREADY_TAKEN);
         Car newCar = CarConverter.fromDtoToEntity(car);
-        return carRepository.save(newCar);
+        carRepository.save(newCar);
+        return car;
     }
 
 
     @Override
-    public void updateCar(Long id, CarPatchDto car) throws CarIdNotFoundException {
+    public CarGetDto updateCar(Long id, CarPatchDto car) throws CarIdNotFoundException {
         Optional<Car> carOptional = carRepository.findById(id);
         if (!carOptional.isPresent()) {
             throw new CarIdNotFoundException(id + Message.CAR_ID_DOES_NOT_EXISTS);
@@ -75,20 +77,20 @@ public class CarService implements CarServiceInterface {
         carToUpdate.setKm(car.km());
         carToUpdate.setDailyRentalPrice(car.dailyRentalPrice());
 
-        carRepository.save(carToUpdate);
+        return CarConverter.fromEntityToCarGetDto(carRepository.save(carToUpdate));
 
 
     }
 
 
     @Override
-    public void changeCar(Long id, Car car) throws CarIdNotFoundException {
+    public CarGetDto changeCar(Long id, Car car) throws CarIdNotFoundException {
         car.setId(id);
         Optional<Car> carOptional = carRepository.findById(id);
         if (!carOptional.isPresent()) {
             throw new CarIdNotFoundException(id + Message.CAR_ID_DOES_NOT_EXISTS);
         }
-        carRepository.save(car);
+        return CarConverter.fromEntityToCarGetDto(carRepository.save(car));
 
     }
 }

@@ -17,32 +17,25 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ClientService  implements ClientServiceInterface{
+public class ClientService implements ClientServiceInterface {
 
     private final ClientRepository clientRepository;
+
     @Autowired
     public ClientService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
     @Override
-   public List<ClientCreateDto> getClients() {
-       List<Client> clients = clientRepository.findAll();
-       return clients.stream()
-               .map(ClientConverter::fromEntityToDto)
-               .toList();
-       }
-@Override
-    public ClientCreateDto getClientCreateDto (Long clientId) throws ClientIdNotFoundException {
-        Optional<Client> clientOptional = clientRepository.findById(clientId);
-        if (clientOptional.isEmpty()) {
-            throw new ClientIdNotFoundException(clientId + Message.CLIENT_ID_NOT_EXISTS);
-        }
-        Client client = clientOptional.get();
-        return ClientConverter.fromEntityToDto(client);
+    public List<ClientCreateDto> getClients() {
+        List<Client> clients = clientRepository.findAll();
+        return clients.stream()
+                .map(ClientConverter::fromEntityToDto)
+                .toList();
     }
-@Override
-    public Client getClient (Long clientId) throws ClientIdNotFoundException {
+
+    @Override
+    public Client getClient(Long clientId) throws ClientIdNotFoundException {
         Optional<Client> clientOptional = clientRepository.findById(clientId);
         if (clientOptional.isEmpty()) {
             throw new ClientIdNotFoundException(clientId + Message.CLIENT_ID_NOT_EXISTS);
@@ -51,16 +44,27 @@ public class ClientService  implements ClientServiceInterface{
 
     }
 
-@Override
-    public Client addNewClient(ClientCreateDto client) throws ClientAlreadyExists {
+    @Override
+    public ClientCreateDto getClientCreateDto(Long clientId) throws ClientIdNotFoundException {
+        Optional<Client> clientOptional = clientRepository.findById(clientId);
+        if (clientOptional.isEmpty()) {
+            throw new ClientIdNotFoundException(clientId + Message.CLIENT_ID_NOT_EXISTS);
+        }
+        Client client = clientOptional.get();
+        return ClientConverter.fromEntityToDto(client);
+    }
+
+    @Override
+    public ClientCreateDto addNewClient(ClientCreateDto client) throws ClientAlreadyExists {
         Optional<Client> clientOptional = this.clientRepository.findByEmail(client.email());
         if (clientOptional.isPresent())
             throw new ClientAlreadyExists(Message.EMAIL_TAKEN);
-       @Valid Client newClient = ClientConverter.fromDtoToEntity(client);
-       return clientRepository.save(newClient);
+        @Valid Client newClient = ClientConverter.fromDtoToEntity(client);
+        clientRepository.save(newClient);
+        return client;
     }
 
-@Override
+    @Override
     public void updateClient(Long id, ClientPatchDto client) throws ClientIdNotFoundException {
         Optional<Client> clientOptional = clientRepository.findById(id);
         if (clientOptional.isEmpty()) {
@@ -71,12 +75,12 @@ public class ClientService  implements ClientServiceInterface{
             clientToUpdate.setName(client.name());
         }
         if (client.email() != null && !client.email().isEmpty() && !client.email().equals(clientToUpdate.getEmail())) {
-          clientToUpdate.setEmail(client.email());
+            clientToUpdate.setEmail(client.email());
         }
         clientRepository.save(clientToUpdate);
     }
 
-@Override
+    @Override
     public void deleteClient(Long clientId) throws ClientIdNotFoundException {
         boolean exists = clientRepository.existsById(clientId);
         if (!exists) {
@@ -85,7 +89,7 @@ public class ClientService  implements ClientServiceInterface{
         clientRepository.deleteById(clientId);
     }
 
-@Override
+    @Override
     public void changeClient(Long id, Client client) throws ClientIdNotFoundException {
         client.setId(id);
         Optional<Client> clientOptional = clientRepository.findById(id);

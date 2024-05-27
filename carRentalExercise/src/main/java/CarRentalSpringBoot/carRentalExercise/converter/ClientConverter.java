@@ -17,7 +17,7 @@ public class ClientConverter {
         );
     }
 
-    public static ClientGetDto fromEntityGetToDto(Client client) {
+    public static ClientGetDto fromEntityToGetDto(Client client) {
         return new ClientGetDto(
                 client.getName(),
                 client.getNif()
@@ -34,5 +34,5 @@ public class ClientConverter {
                 .build();
     }
 
-
+   
 }

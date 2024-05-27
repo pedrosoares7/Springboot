@@ -8,7 +8,8 @@ import CarRentalSpringBoot.carRentalExercise.repository.ClientRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -22,16 +23,14 @@ import static org.mockito.Mockito.*;
 @ExtendWith({SpringExtension.class})
 public class ClientServiceTest {
 
+    static MockedStatic<ClientConverter> mockedClientConverter = mockStatic(ClientConverter.class);
     @MockBean
     private ClientRepository clientRepositoryMock;
-
     private ClientService clientService;
-
-    static MockedStatic<ClientConverter> mockedClientConverter = mockStatic(ClientConverter.class);
 
     @BeforeEach
     public void setUp() {
-        clientService = new ClientService (clientRepositoryMock);
+        clientService = new ClientService(clientRepositoryMock);
 
     }
 
@@ -53,15 +52,16 @@ public class ClientServiceTest {
         mockedClientConverter.verify(() -> ClientConverter.fromDtoToEntity(clientCreateDto));
         mockedClientConverter.verifyNoMoreInteractions();
 
-        verify(clientRepositoryMock,times(1)).save(client);
+        verify(clientRepositoryMock, times(1)).save(client);
         Mockito.verifyNoMoreInteractions(clientRepositoryMock);
-        assertEquals(client, clientService.addNewClient(clientCreateDto));
+        assertEquals(clientCreateDto, clientService.addNewClient(clientCreateDto));
 
     }
-   @Test
+
+    @Test
     void createClientWithDuplicatedEmailThrowsException() {
         //given
-        ClientCreateDto clientCreateDto = new ClientCreateDto("Pedro", "pedro@gmail.com",123456789,555555555, LocalDate.of(2000, 1, 1));
+        ClientCreateDto clientCreateDto = new ClientCreateDto("Pedro", "pedro@gmail.com", 123456789, 555555555, LocalDate.of(2000, 1, 1));
 
         //when
         when(clientRepositoryMock.findByEmail(clientCreateDto.email())).thenReturn(Optional.of(new Client()));
